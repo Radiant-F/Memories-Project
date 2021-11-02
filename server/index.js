@@ -15,7 +15,7 @@ app.use(cors());
 app.use("/posts", postRoutes);
 
 app.get("/", (req, res) => {
-  res.send("Hairm ini adalah API Memories");
+  res.send("Halo, ini adalah API Memories.");
 });
 
 const PORT = process.env.PORT || 5000;
