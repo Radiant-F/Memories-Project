@@ -13,12 +13,14 @@ import useStyles from "./styles";
 import Input from "./Input";
 import Icon from "./icon";
 import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
 
 function Auth() {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
   const [isSignup, setIsSignup] = useState(false);
+  const history = useHistory();
 
   const handleShowPassword = () => setShowPassword(!showPassword);
 
@@ -34,12 +36,14 @@ function Auth() {
     const token = res?.tokenId;
     try {
       dispatch({ type: "AUTH", data: { result, token } });
+      history.push("/");
     } catch (error) {
       console.log(error);
     }
   }
 
-  function googleFailure() {
+  function googleFailure(error) {
+    console.log(error);
     console.log("Masuk dengan Google tidak berhasil");
   }
 
@@ -116,7 +120,7 @@ function Auth() {
               </Button>
             )}
             onSuccess={googleSuccess}
-            onFailure={googleFailure}
+            onFailure={(error) => googleFailure(error)}
             cookiePolicy="single_host_origin"
           />
           <Grid container justifyContent="flex-end">
