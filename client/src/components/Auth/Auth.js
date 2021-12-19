@@ -14,6 +14,14 @@ import Input from "./Input";
 import Icon from "./icon";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
+const initialState = {
+  email: "",
+  password: "",
+  confirmPassword: "",
+  firstName: "",
+  lastName: "",
+};
+import { signin, signup } from "../../actions/auth";
 
 function Auth() {
   const classes = useStyles();
@@ -21,11 +29,21 @@ function Auth() {
   const [showPassword, setShowPassword] = useState(false);
   const [isSignup, setIsSignup] = useState(false);
   const history = useHistory();
+  const [formData, setFormData] = useState(initialState);
 
   const handleShowPassword = () => setShowPassword(!showPassword);
 
-  function handleSubmit() {}
-  function handleChange() {}
+  function handleSubmit(e) {
+    e.preventDefault();
+    if (isSignup) {
+      dispatch(signup(formData, history));
+    } else {
+      dispatch(signin(formData, history));
+    }
+  }
+  function handleChange(e) {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  }
   function switchMode() {
     setIsSignup(!isSignup);
     setShowPassword(false);
@@ -66,8 +84,8 @@ function Auth() {
                   half
                 />
                 <Input
-                  name="firstName"
-                  label="First Name"
+                  name="lastname"
+                  label="Last Name"
                   handleChange={handleChange}
                   half
                 />
